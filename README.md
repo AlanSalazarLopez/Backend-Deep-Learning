@@ -1,4 +1,4 @@
-# Backend US01/US02 (FastAPI + SQLite)
+# Backend US01-US05 (FastAPI + SQLite)
 
 Reemplaza a Fake Store API. La base se crea y se llena sola al arrancar.
 
@@ -12,6 +12,23 @@ Reemplaza a Fake Store API. La base se crea y se llena sola al arrancar.
 | 4  | cliente1 | Cliente123* | Cliente                |
 | 5  | cliente2 | Cliente456* | Cliente                |
 | 6  | cliente3 | Cliente789* | Cliente                |
+
+## Endpoints
+
+| Método | Ruta | Descripción | Auth |
+|--------|------|-------------|------|
+| POST | /auth/login | Login -> `{token, id, username}` | - |
+| GET | /users | Usuarios (sin contraseñas) | - |
+| GET | /products | Catálogo completo (US03) | - |
+| GET | /products/categories | Lista de categorías (US04) | - |
+| GET | /products/category/{categoria} | Productos de una categoría (US04) | - |
+| GET | /products/{id} | Detalle (US05); 404 si no existe | - |
+| PUT | /products/{id} | Editar (US05) | Bearer, solo Administrador |
+| DELETE | /products/{id} | Eliminar (US05) | Bearer, solo Administrador |
+
+Cada producto: `{id, title, price, category, description, image}`.
+PUT/DELETE responden 401 sin token y 403 si el usuario no es administrador
+(ids 1 y 2, la misma regla que la app aplica en US01).
 
 ## Correr local (WSL)
 
