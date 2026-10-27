@@ -60,3 +60,13 @@ Solo cambia la URL base:
 - Flet: `BASE_URL = "https://TU-SERVICIO.onrender.com"` en `auth_service.py`
 
 Sube el timeout de 8 s a ~60 s para tolerar el arranque en frío.
+
+## Imágenes de productos
+
+Las imágenes viven en `static/products/<id>.png` y el backend las sirve en
+`/static/products/<id>.png`; la API devuelve la URL absoluta en el campo
+`image`. Para cambiar una, reemplaza el PNG (600x600) conservando el nombre,
+o edita el producto (PUT) con una URL externa en `image`.
+
+Los íconos son [Twemoji](https://github.com/jdecked/twemoji) (Copyright
+Twitter, Inc. y colaboradores), licencia CC-BY 4.0.

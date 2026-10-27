@@ -21,10 +21,12 @@ import secrets
 import sqlite3
 import time
 from contextlib import closing
+from pathlib import Path
 
 import jwt
-from fastapi import Depends, FastAPI, Header, HTTPException
+from fastapi import Depends, FastAPI, Header, HTTPException, Request
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel, Field
 
 DB_PATH = os.getenv("DB_PATH", "app.db")
@@ -46,9 +48,13 @@ SEED_USERS = [
     (6, "cliente3", "Cliente789*", "Diego Cliente"),
 ]
 
+STATIC_DIR = Path(__file__).parent / "static"
+
+
 def _img(product_id: int) -> str:
-    # Imagen determinista por producto (picsum.photos), solo se guarda la URL.
-    return f"https://picsum.photos/seed/producto{product_id}/400/400"
+    # Ruta relativa a las imágenes que viajan con el backend (static/products).
+    # Al responder se convierte en URL absoluta (ver _product_out).
+    return f"/static/products/{product_id}.png"
 
 
 _SEED_RAW = [
@@ -124,6 +130,12 @@ def init_db() -> None:
                 "INSERT INTO users (id, username, password_hash, name) VALUES (?,?,?,?)",
                 [(i, u, hash_password(p), n) for i, u, p, n in SEED_USERS],
             )
+        # Migración: BD de la versión anterior con imágenes de picsum.photos.
+        db.execute(
+            "UPDATE products SET image = '/static/products/' || id || '.png' "
+            "WHERE image LIKE 'https://picsum.photos/%'"
+        )
+        db.commit()
         if db.execute("SELECT COUNT(*) FROM products").fetchone()[0] == 0:
             db.executemany(
                 "INSERT INTO products (id, title, price, category, description, image) VALUES (?,?,?,?,?,?)",
@@ -134,6 +146,7 @@ def init_db() -> None:
 
 # ---------- app ----------
 app = FastAPI(title="Backend US01-US05")
+app.mount("/static", StaticFiles(directory=STATIC_DIR), name="static")
 app.add_middleware(
     CORSMiddleware, allow_origins=["*"], allow_methods=["*"], allow_headers=["*"]
 )
@@ -212,11 +225,26 @@ def list_users():
     return [dict(r) for r in rows]
 
 
+def _product_out(row, request: Request) -> dict:
+    """Producto listo para el cliente: si la imagen es una ruta relativa
+    (/static/...) la vuelve URL absoluta con el host real de la petición
+    (detrás del proxy de Render usa x-forwarded-* para conservar https)."""
+    product = dict(row)
+    image = product.get("image") or ""
+    if image.startswith("/"):
+        proto = request.headers.get("x-forwarded-proto", request.url.scheme)
+        proto = proto.split(",")[0].strip()
+        host = request.headers.get("x-forwarded-host") or request.headers.get("host")
+        host = (host or request.url.netloc).split(",")[0].strip()
+        product["image"] = f"{proto}://{host}{image}"
+    return product
+
+
 @app.get("/products")
-def list_products():
+def list_products(request: Request):
     with closing(get_db()) as db:
         rows = db.execute("SELECT * FROM products ORDER BY id").fetchall()
-    return [dict(r) for r in rows]
+    return [_product_out(r, request) for r in rows]
 
 
 # OJO: /products/categories y /products/category/{c} se declaran ANTES de
@@ -231,21 +259,21 @@ def list_categories():
 
 
 @app.get("/products/category/{category}")
-def list_products_by_category(category: str):
+def list_products_by_category(category: str, request: Request):
     with closing(get_db()) as db:
         rows = db.execute(
             "SELECT * FROM products WHERE category = ? ORDER BY id", (category,)
         ).fetchall()
-    return [dict(r) for r in rows]
+    return [_product_out(r, request) for r in rows]
 
 
 @app.get("/products/{product_id}")
-def get_product(product_id: int):
+def get_product(product_id: int, request: Request):
     with closing(get_db()) as db:
         row = db.execute("SELECT * FROM products WHERE id = ?", (product_id,)).fetchone()
     if not row:
         raise HTTPException(status_code=404, detail="Producto no encontrado")
-    return dict(row)
+    return _product_out(row, request)
 
 
 class ProductUpdate(BaseModel):
@@ -258,7 +286,10 @@ class ProductUpdate(BaseModel):
 
 @app.put("/products/{product_id}")
 def update_product(
-    product_id: int, body: ProductUpdate, _admin: int = Depends(require_admin)
+    product_id: int,
+    body: ProductUpdate,
+    request: Request,
+    _admin: int = Depends(require_admin),
 ):
     fields = body.model_dump(exclude_none=True)  # solo columnas del modelo
     with closing(get_db()) as db:
@@ -272,7 +303,7 @@ def update_product(
             )
             db.commit()
         row = db.execute("SELECT * FROM products WHERE id = ?", (product_id,)).fetchone()
-    return dict(row)
+    return _product_out(row, request)
 
 
 @app.delete("/products/{product_id}")
