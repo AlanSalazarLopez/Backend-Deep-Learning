@@ -1,0 +1,5 @@
+# Solo para correr las pruebas (no se instala en Render): pytest backend/tests
+-r requirements.txt
+pytest==9.2.0
+httpx==0.28.1
+pgserver==0.1.4      # PostgreSQL local para las pruebas (Linux/macOS; en Windows, correrlas desde WSL)

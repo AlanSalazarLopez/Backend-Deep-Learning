@@ -1,0 +1,175 @@
+{
+ "1": {
+  "videos": 1575,
+  "canales": 23,
+  "estado": "ok",
+  "calibracion": {
+   "hot": {
+    "reales": 0,
+    "azar_media": 0.3,
+    "azar_p95": 1.0,
+    "robustos": 0,
+    "senal": "baja"
+   },
+   "evergreen": {
+    "reales": 0,
+    "azar_media": 0.4,
+    "azar_p95": 2.0,
+    "robustos": 0,
+    "senal": "baja"
+   },
+   "temas_evaluados": 31
+  },
+  "hot": [],
+  "evergreen": []
+ },
+ "3": {
+  "videos": 1268,
+  "canales": 19,
+  "estado": "ok",
+  "calibracion": {
+   "hot": {
+    "reales": 0,
+    "azar_media": 0.2,
+    "azar_p95": 1.0,
+    "robustos": 0,
+    "senal": "baja"
+   },
+   "evergreen": {
+    "reales": 0,
+    "azar_media": 0.4,
+    "azar_p95": 2.0,
+    "robustos": 0,
+    "senal": "baja"
+   },
+   "temas_evaluados": 26
+  },
+  "hot": [],
+  "evergreen": []
+ },
+ "4": {
+  "videos": 1142,
+  "canales": 19,
+  "estado": "ok",
+  "calibracion": {
+   "hot": {
+    "reales": 2,
+    "azar_media": 1.0,
+    "azar_p95": 2.0,
+    "robustos": 0,
+    "senal": "baja"
+   },
+   "evergreen": {
+    "reales": 1,
+    "azar_media": 1.2,
+    "azar_p95": 3.549999999999997,
+    "robustos": 1,
+    "senal": "alta"
+   },
+   "temas_evaluados": 63
+  },
+  "hot": [
+   {
+    "robusto": false,
+    "tema": "mayor · ia acaba · historia",
+    "lift_reciente": 2.43,
+    "lift_antiguo": 0.77,
+    "lift_minimo": 1.33,
+    "videos": 6,
+    "videos_recientes": 3,
+    "canales": 4,
+    "max_share_un_canal": 0.33,
+    "ejemplos": [
+     {
+      "yt_video_id": "Uxw7Y47hOGI",
+      "titulo": "Ya está pasando... La IA acaba de desatar la mayor pesadilla de internet de la historia",
+      "channel_id": 87,
+      "ratio": 3.66
+     },
+     {
+      "yt_video_id": "8XK13O7RyBk",
+      "titulo": "¡Nadie está seguro! Así ocurrió el mayor hackeo de la historia (Binance)",
+      "channel_id": 600,
+      "ratio": 2.09
+     }
+    ]
+   },
+   {
+    "robusto": false,
+    "tema": "office · microsoft · 2026",
+    "lift_reciente": 2.07,
+    "lift_antiguo": null,
+    "lift_minimo": 1.25,
+    "videos": 4,
+    "videos_recientes": 3,
+    "canales": 3,
+    "max_share_un_canal": 0.5,
+    "ejemplos": [
+     {
+      "yt_video_id": "5w9SS8DMr1Y",
+      "titulo": "Claude lanzó su propio office. ¿Adiós Microsoft?",
+      "channel_id": 600,
+      "ratio": 2.91
+     },
+     {
+      "yt_video_id": "zVJhRTVEVDo",
+      "titulo": "Algo salió mal al instalar Office: Solución rápida (2026)",
+      "channel_id": 91,
+      "ratio": 1.84
+     }
+    ]
+   }
+  ],
+  "evergreen": [
+   {
+    "robusto": true,
+    "tema": "notebook · gemini · convierte",
+    "lift_reciente": 1.92,
+    "lift_antiguo": 2.23,
+    "lift_minimo": 1.35,
+    "videos": 12,
+    "videos_recientes": 5,
+    "canales": 4,
+    "max_share_un_canal": 0.5,
+    "ejemplos": [
+     {
+      "yt_video_id": "Ho-mDWsJM-4",
+      "titulo": "Convierte NotebookLM en una máquina de prompts perfectos",
+      "channel_id": 102,
+      "ratio": 7.77
+     },
+     {
+      "yt_video_id": "D23f5hMDBfg",
+      "titulo": "🚀 NUEVO GEMINI NOTEBOOK: deja de tomar apuntes en reuniones y clases",
+      "channel_id": 95,
+      "ratio": 5.28
+     }
+    ]
+   }
+  ]
+ },
+ "5": {
+  "videos": 787,
+  "canales": 15,
+  "estado": "ok",
+  "calibracion": {
+   "hot": {
+    "reales": 0,
+    "azar_media": 0.3,
+    "azar_p95": 1.0,
+    "robustos": 0,
+    "senal": "baja"
+   },
+   "evergreen": {
+    "reales": 0,
+    "azar_media": 0.2,
+    "azar_p95": 1.0,
+    "robustos": 0,
+    "senal": "baja"
+   },
+   "temas_evaluados": 17
+  },
+  "hot": [],
+  "evergreen": []
+ }
+}

@@ -1,5 +1,21 @@
+# secretos
+.env
+.env.*
+!.env.example
+
+# python
+.venv/
 venv/
 __pycache__/
 *.pyc
-.env
-app.db
+.pytest_cache/
+
+# modelos y cachés
+*.joblib
+data/.cache_discover/
+
+# editor / sistema
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db

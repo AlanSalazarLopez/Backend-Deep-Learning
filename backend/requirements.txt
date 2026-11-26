@@ -1,0 +1,14 @@
+# Python 3.12. Versiones fijadas: entrenamiento y servidor deben usar la MISMA versión de scikit-learn.
+fastapi==0.163.0
+uvicorn[standard]==0.54.0
+pydantic==2.14.3
+psycopg[binary,pool]==3.3.9
+argon2-cffi==25.1.0
+PyJWT==2.15.1
+python-dotenv==1.2.4
+requests==2.34.2
+scikit-learn==1.9.1
+pandas==3.1.1
+numpy==2.5.4
+joblib==1.6.0
+langdetect==1.0.9

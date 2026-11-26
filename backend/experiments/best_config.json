@@ -1,0 +1,13 @@
+{
+  "data": {
+    "niche_ids": [
+      1,
+      3,
+      4,
+      5
+    ]
+  },
+  "weights": {
+    "half_life_days": 45
+  }
+}
